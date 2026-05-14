@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Growth APM Metrics Trainer — Allen Digital Prep</title>
+<title>Growth APM Metrics Trainer</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -374,13 +374,13 @@
 
 <header>
   <h1>Growth APM Metrics Trainer</h1>
-  <p>Allen Digital interview prep · Work through tabs in order for best results</p>
+  <p>PM & APM interview prep · Work through tabs in order for best results</p>
 </header>
 
 <div class="tabs">
   <button class="tab active" onclick="show('skeleton', this)">1. The Skeleton</button>
   <button class="tab" onclick="show('flashcards', this)">2. Flashcards</button>
-  <button class="tab" onclick="show('scenarios', this)">3. Allen Scenarios</button>
+  <button class="tab" onclick="show('scenarios', this)">3. PM Scenarios</button>
   <button class="tab" onclick="show('cheatsheet', this)">4. Cheat Sheet</button>
 </div>
 
@@ -389,7 +389,7 @@
   <!-- SKELETON -->
   <div id="skeleton" class="section active">
     <h2 class="section-h">The mental model</h2>
-    <p class="section-desc">Every metric question in APM interviews is secretly asking one thing: can you map the user journey and pick the right metric for each stage? Click a stage to see what it means.</p>
+    <p class="section-desc">Every metric question in PM interviews is secretly asking one thing: can you map the user journey and pick the right metric for each stage? Click a stage to see what it means.</p>
 
     <div class="stage-grid">
       <button class="stage-btn s-acq" onclick="toggleStage('acq', this)">
@@ -428,7 +428,7 @@
 
     <div id="stage-act" class="stage-detail">
       <h3 style="color:var(--purple)">Activation</h3>
-      <p>Signup ≠ activation. Activation is the first moment a user experiences real value. For Allen Digital: activation = first class watched AND first test attempted. Both — because watching is passive, attempting a test is active learning. Activation should predict retention — that's how you know you've defined it right.</p>
+      <p>Signup ≠ activation. Activation is the first moment a user experiences real value. The key is defining the right activation event for the product — one that predicts long-term retention. Watching a video is passive; completing a task or achieving something is active. Activation should predict retention — that's how you know you've defined it right.</p>
       <div class="pills">
         <span class="pill">Activation rate</span><span class="pill">Onboarding completion</span><span class="pill">Time to value</span><span class="pill">First class watched</span><span class="pill">First test attempted</span><span class="pill">Drop-off rate per step</span>
       </div>
@@ -436,7 +436,7 @@
 
     <div id="stage-eng" class="stage-detail">
       <h3 style="color:var(--amber)">Engagement</h3>
-      <p>For edtech, use WAU — not DAU. Students don't study every single day, that's normal. Define "active" as completing a meaningful learning action, not just opening the app. In edtech, engagement without learning improvement is a guardrail problem, not a success metric.</p>
+      <p>Active doesn't always mean daily. Pick the right active period for the product — social apps want DAU, fitness apps want WAU, tax apps want monthly. Always define "active" as completing a meaningful action, not just opening the app. In consumer products, engagement without actual value delivery is a guardrail problem, not a success.</p>
       <div class="pills">
         <span class="pill">WAU</span><span class="pill">Lessons/week</span><span class="pill">Test attempts</span><span class="pill">Doubts asked & resolved</span><span class="pill">Study streaks</span><span class="pill">Feature adoption</span><span class="pill">Session depth</span>
       </div>
@@ -470,12 +470,12 @@
       <div class="section-label" style="margin-bottom:12px">The 3-layer hierarchy — use this in every answer</div>
       <div class="north-star">
         <div class="north-star-label">North Star Metric</div>
-        <div class="north-star-text">Weekly active learners completing meaningful learning actions</div>
+        <div class="north-star-text">The one metric that captures real user value — not vanity, not volume</div>
       </div>
       <div class="two-col">
         <div class="hier-box">
           <h4 style="color:var(--green)">Input metrics (drive it ↑)</h4>
-          <p>Signup conversion · First class watched · First test attempted · Lessons/week · Doubts resolved · Study plan completion · WAU · Trial-to-paid</p>
+          <p>Signup conversion · First meaningful action · Feature usage · Core action frequency · Trial-to-paid · Repeat usage</p>
         </div>
         <div class="hier-box">
           <h4 style="color:var(--red)">Guardrail metrics (protect it)</h4>
@@ -515,8 +515,8 @@
 
   <!-- SCENARIOS -->
   <div id="scenarios" class="section">
-    <h2 class="section-h">Allen Digital scenarios</h2>
-    <p class="section-desc">Pick the right metric instinct for each situation. Think before clicking.</p>
+    <h2 class="section-h">PM interview scenarios</h2>
+    <p class="section-desc">Real-world product situations — pick the right metric instinct. Think before clicking.</p>
     <div id="scenarios-container"></div>
   </div>
 
@@ -524,7 +524,7 @@
   <div id="cheatsheet" class="section">
     <div class="cheat-intro">
       <strong>One line to remember everything:</strong><br>
-      A Growth PM increases the number of right users who experience value, build a habit, improve outcomes, pay sustainably, and bring others — without hurting quality or margins. For Allen Digital: the goal is not more students on the app. It's more students learning regularly, improving measurably, staying longer, paying or renewing, and recommending Allen to friends.
+      A Growth PM increases the number of right users who experience value, build a habit, improve outcomes, pay sustainably, and bring others — without hurting quality or margins. The goal is never just more users. It's the right users doing the right things.
     </div>
 
     <div class="section-label">Metrics by stage</div>
@@ -598,7 +598,7 @@
 
     <div class="answer-box">
       <strong>Interview answer formula — use this structure every time:</strong><br>
-      First clarify the product goal. Then map the learner journey. Then choose one North Star metric. Break it into input metrics across acquisition, activation, engagement, retention, revenue, and referral. Add guardrail metrics. Finally, segment by cohort, channel, class (JEE/NEET, 11th/12th), device, and geography to find where the biggest opportunity or leak is.
+      First clarify the product goal. Then map the user journey. Choose one North Star metric. Break it into input metrics across acquisition, activation, engagement, retention, revenue, and referral. Add guardrail metrics. Finally, segment by cohort, channel, user type, device, and geography to find where the biggest opportunity or leak is.
     </div>
   </div>
 
@@ -626,19 +626,19 @@ function toggleStage(id, btn) {
 
 const cards = [
   { tag: 'Acquisition', cls: 'tag-acq', q: 'What is CAC and when does a low CAC become a problem?', a: "Customer Acquisition Cost — total spend divided by new paying customers. Low CAC is a problem when those cheap users don't activate or retain. The cheapest channel is not always the best channel.", f: 'CAC = Total acquisition spend ÷ New paying customers', ex: 'Spent ₹1,00,000 → 500 customers → CAC = ₹200. But if those 500 churn in week 1, the ₹200 CAC is worthless.' },
-  { tag: 'Activation', cls: 'tag-act', q: 'What is the Aha Moment and how do you find it?', a: "The first moment a user understands the product's value. You find it through cohort analysis — compare users who did action X in week 1 vs those who didn't, and see which group retains better. That action is your Aha Moment.", f: 'Activation Rate = Activated users ÷ Signed-up users', ex: 'For Allen Digital: first class watched + first test attempted within 7 days predicts strong D30 retention.' },
+  { tag: 'Activation', cls: 'tag-act', q: 'What is the Aha Moment and how do you find it?', a: "The first moment a user understands the product's value. You find it through cohort analysis — compare users who did action X in week 1 vs those who didn't, and see which group retains better. That action is your Aha Moment.", f: 'Activation Rate = Activated users ÷ Signed-up users', ex: 'Spotify: users who create a playlist in week 1 retain 2x better than those who only listen. Playlist creation = Aha Moment.' },
   { tag: 'Activation', cls: 'tag-act', q: 'What is Time to Value and why does it matter?', a: 'How long it takes a new user to experience the product\'s value. The shorter it is, the more users activate before dropping off. Reduce it by removing steps and leading users directly to the value moment.', f: 'Measure: time between signup and first meaningful action', ex: 'Canva shows templates immediately instead of a blank canvas — users design in 2 min instead of 15.' },
-  { tag: 'Engagement', cls: 'tag-eng', q: 'Why should you use WAU instead of DAU for an edtech app?', a: "Students don't study every single day — that's normal behavior. WAU captures weekly learning habits better. Always define 'active' as completing a meaningful action (lesson, test), not just opening the app.", f: 'Stickiness = DAU ÷ MAU', ex: 'If DAU=20K and MAU=100K, stickiness = 20%. Use carefully for edtech — daily isn\'t expected.' },
+  { tag: 'Engagement', cls: 'tag-eng', q: 'DAU, WAU, MAU — how do you pick the right one?', a: "Match the active period to the product's natural usage cadence. Social apps = DAU. Fitness or productivity = WAU. Tax or travel = MAU or seasonal. Always define 'active' as completing a meaningful action, not just opening the app.", f: 'Stickiness = DAU ÷ MAU', ex: 'If DAU=20K and MAU=100K, stickiness = 20%. High stickiness matters for habit products like social or gaming, less so for utilities.' },
   { tag: 'Engagement', cls: 'tag-eng', q: 'What is the difference between engagement depth and frequency?', a: 'Frequency = how often a user comes back. Depth = how much they do per session. Both matter. A user can return often but do very little (shallow), or come rarely but go deep. Edtech needs both.', f: 'Frequency: core actions per week. Depth: content consumed per session.', ex: 'Test attempts per week (frequency) vs questions per test session (depth).' },
   { tag: 'Retention', cls: 'tag-ret', q: 'Why is cohort retention better than average retention?', a: 'Averages hide what\'s really happening. Cohort retention compares users who joined in different months. If newer cohorts retain better than older ones, your recent product changes are working. Averages mask this completely.', f: 'Cohort: group users by signup date, track their return rate over time', ex: 'Jan D30=8%, Feb D30=12%, Mar D30=16% → clear upward trend. Average might still show 10% and look flat.' },
   { tag: 'Retention', cls: 'tag-ret', q: 'What is churn rate and what does high churn signal?', a: 'Percentage of users lost in a period. High churn means: users failed to activate, value is not repeated enough, pricing is too high, product quality is poor, or a competitor is stronger. Always diagnose before acting.', f: 'Churn Rate = Churned users ÷ Total users at start of period', ex: '1,000 subscribers, 80 cancel → Churn = 8%.' },
   { tag: 'Revenue', cls: 'tag-rev', q: 'What is LTV and why does LTV:CAC matter?', a: "Lifetime Value = average revenue × gross margin × customer lifetime. LTV:CAC tells you whether acquisition is sustainable. If LTV barely exceeds CAC, you're spending too much per user. The ratio matters more than either number alone.", f: 'LTV = ARPU × Gross margin × Lifetime', ex: '₹500/month × 10 months × 60% margin = ₹3,000 LTV vs CAC of ₹1,000 → healthy ratio.' },
   { tag: 'Revenue', cls: 'tag-rev', q: 'What is CAC payback period and why is it separate from LTV?', a: 'How many months to recover what you spent acquiring a customer. Even if LTV is great, slow payback hurts cash flow. Critical for early-stage companies that can\'t afford to wait 2+ years to break even on each customer.', f: 'CAC Payback = CAC ÷ Monthly gross profit per customer', ex: 'CAC=₹1,200, Monthly gross profit=₹300 → Payback = 4 months.' },
-  { tag: 'Revenue', cls: 'tag-rev', q: 'What is gross margin and why is it a guardrail metric?', a: "Revenue minus direct costs divided by revenue. It catches fake growth — if you grow orders by giving huge discounts, orders rise but margin collapses. Always check margin alongside revenue growth. This is how PMs spot unsustainable growth.", f: 'Gross Margin = (Revenue − Direct costs) ÷ Revenue × 100', ex: 'Allen gives ₹1000 off to increase trial signups. Signups ↑ 40% but gross margin drops from 60% to 35% — bad growth.' },
-  { tag: 'Activation', cls: 'tag-act', q: 'What is the difference between signup, onboarding completion, and activation?', a: 'Signup = user created account. Onboarding = user finished setup steps. Activation = user experienced real product value. Only activation predicts long-term retention. The others are just infrastructure steps toward it.', f: 'Activation Rate = Activated ÷ Registered', ex: 'Allen: account created ≠ activation. Watching first class + attempting first test within 7 days = activation.' },
-  { tag: 'Engagement', cls: 'tag-eng', q: 'What is feature adoption and how should you measure it?', a: "Percentage of eligible users who use a specific feature. Don't just count clicks — measure whether the feature improves the user journey and has downstream impact on retention and outcomes. A feature used once and abandoned has failed.", f: 'Feature Adoption = Users using feature ÷ Eligible users', ex: 'AI doubt-solving: % who try it, % who return to it, and does it improve test scores week-over-week?' },
+  { tag: 'Revenue', cls: 'tag-rev', q: 'What is gross margin and why is it a guardrail metric?', a: "Revenue minus direct costs divided by revenue. It catches fake growth — if you grow orders by giving huge discounts, orders rise but margin collapses. Always check margin alongside revenue growth. This is how PMs spot unsustainable growth.", f: 'Gross Margin = (Revenue − Direct costs) ÷ Revenue × 100', ex: 'A food delivery app gives heavy discounts to grow orders. Orders ↑ 40% but gross margin drops from 60% to 30% — that\'s fake growth.' },
+  { tag: 'Activation', cls: 'tag-act', q: 'What is the difference between signup, onboarding completion, and activation?', a: 'Signup = user created account. Onboarding = user finished setup steps. Activation = user experienced real product value. Only activation predicts long-term retention. The others are just infrastructure steps toward it.', f: 'Activation Rate = Activated ÷ Registered', ex: 'Canva: account created ≠ activation. Exporting a first design = activation. That\'s when users understand the value.' },
+  { tag: 'Engagement', cls: 'tag-eng', q: 'What is feature adoption and how should you measure it?', a: "Percentage of eligible users who use a specific feature. Don't just count clicks — measure whether the feature improves the user journey and has downstream impact on retention and outcomes. A feature used once and abandoned has failed.", f: 'Feature Adoption = Users using feature ÷ Eligible users', ex: 'Notion launches an AI writing tool: track % who try it, % who return weekly, and whether it improves doc completion rate.' },
   { tag: 'Acquisition', cls: 'tag-acq', q: 'What does paid vs organic split tell you as a Growth PM?', a: 'High reliance on paid traffic is fragile — growth stops when spend stops. Strong organic (SEO, word-of-mouth, referrals) signals real product pull and is more sustainable. Organic users also tend to retain better and have lower effective CAC.', f: 'Paid split = Paid traffic ÷ Total traffic', ex: 'If 80% of signups come from paid ads, the business is one budget cut away from collapse.' },
-  { tag: 'Revenue', cls: 'tag-rev', q: 'What is ARPU and how is it different from AOV?', a: 'ARPU = average revenue per user across all users. AOV = average order value per transaction. Use ARPU for subscriptions and SaaS. Use AOV for ecommerce and food delivery where users transact multiple times.', f: 'ARPU = Revenue ÷ Total Users  |  AOV = Revenue ÷ Number of Orders', ex: 'Allen Digital: use ARPU (subscription). Swiggy: use AOV (per order).' },
+  { tag: 'Revenue', cls: 'tag-rev', q: 'What is ARPU and how is it different from AOV?', a: 'ARPU = average revenue per user across all users. AOV = average order value per transaction. Use ARPU for subscriptions and SaaS. Use AOV for ecommerce and food delivery where users transact multiple times.', f: 'ARPU = Revenue ÷ Total Users  |  AOV = Revenue ÷ Number of Orders', ex: 'Netflix: use ARPU (subscription). Swiggy: use AOV (per order). Mixing them up in an interview is a red flag.' },
   { tag: 'Retention', cls: 'tag-ret', q: 'What does D1/D7/D30 retention each tell you?', a: 'D1 = habit signal (did the product hook them?). D7 = stickiness (is it part of their week?). D30 = long-term value delivery (do they still find it worth it a month later?). Each drop-off point tells you where users lose faith.', f: 'D7 = Users from cohort who return on day 7 ÷ Total cohort size', ex: '1,000 sign up May 1: 300 on May 2 = 30% D1. 150 on May 8 = 15% D7. 80 on May 31 = 8% D30.' }
 ];
 
@@ -664,59 +664,59 @@ renderCard();
 
 const scenarios = [
   {
-    q: 'Students are signing up for Allen Digital\'s free trial but very few watch their first class. What metrics do you look at and what might you do?',
+    q: 'Users are signing up for a food delivery app but very few place their first order. What do you look at?',
     opts: [
-      'Track DAU and find which users open the app most',
-      'Look at onboarding drop-off by step, time to value, and first class watched rate — then test surfacing the most relevant class immediately after signup',
-      'Check trial-to-paid conversion and refund rate',
-      'Measure NPS and CSAT from existing paid users'
+      'Track DAU and find which users open the app most often',
+      'Look at onboarding drop-off by step, time to value, and first order rate — then test reducing friction between signup and the first order moment',
+      'Check revenue and refund rate immediately',
+      'Measure NPS from existing frequent users'
     ],
     correct: 1,
-    explain: 'This is an activation problem. The funnel is: signup → first class watched. You need to find where users drop between these steps. Time to value and onboarding completion tell you how far users get and how long it takes. The fix is reducing friction between signup and the first learning moment — not tracking DAU or checking revenue metrics.'
+    explain: 'This is an activation problem. The funnel is: signup → first order placed. Find where users drop between these steps. Time to value and onboarding completion show how far users get. The fix is reducing friction before the first order — not tracking DAU (a retention metric) or revenue (too downstream).'
   },
   {
-    q: "Allen Digital's trial-to-paid conversion is low. What do you check first?",
+    q: "A SaaS product's trial-to-paid conversion is low. What do you investigate first?",
     opts: [
       'Increase paid ad spend to bring more trial users',
-      'Run an NPS survey to all users',
-      'Map the trial experience: are users activating? Are they hitting the paywall before experiencing value? Check activation rate, trial engagement, and where users disengage',
-      'Lower the subscription price immediately'
+      'Run an NPS survey immediately',
+      'Map the trial experience: are users activating? Are they hitting the paywall before experiencing value? Check activation rate, trial engagement depth, and where users disengage',
+      'Lower the subscription price to remove the barrier'
     ],
     correct: 2,
-    explain: 'Revenue conversion problems usually trace back to activation or engagement failures. If users don\'t experience value during the trial, they won\'t pay — no matter how you price it. Check whether users watched a class, attempted a test, and studied regularly before hitting the paywall. The fix may be improving activation, not touching the price.'
+    explain: 'Low trial-to-paid almost always traces back to an activation or engagement failure — not pricing. If users don\'t experience the product\'s core value during the trial, they won\'t pay regardless of price. Check whether users completed the key workflow before hitting the paywall. Fix activation first, then revisit pricing if needed.'
   },
   {
-    q: 'You launch an AI doubt-solving feature. What tells you it actually worked?',
+    q: 'You launch a new AI-powered feature in your product. How do you decide if it actually worked?',
     opts: [
-      'Number of doubts submitted in the first week',
-      'Feature adoption rate, repeat usage, and whether it improves D7 retention and test improvement scores',
-      'Total time spent inside the feature',
-      'Number of positive App Store reviews mentioning the feature'
+      'Number of times the feature was used in the first week',
+      'Feature adoption rate, repeat usage rate, and downstream impact on D7 retention or core outcome metrics',
+      'Total time spent inside the feature per session',
+      'Number of positive reviews mentioning the feature'
     ],
     correct: 1,
-    explain: 'Feature success is not just usage volume — it\'s whether the feature improves the user journey. Track adoption rate (who tried it), repeat usage (do they return to it), and downstream impact on retention and test scores. A feature people use once and abandon hasn\'t worked. Downstream learning outcome impact is the real signal for Allen.'
+    explain: 'Feature success is not usage volume — it\'s whether the feature improves the user journey. Track adoption (who tried it), repeat usage (do they return?), and downstream impact on retention or core outcomes. A feature used once and never revisited has failed. Volume metrics like total uses or session time don\'t tell you if users got real value.'
   },
   {
-    q: 'Revenue at Allen Digital dropped 15% month-on-month. How do you diagnose it?',
+    q: "An ecommerce app's revenue dropped 20% month-on-month. How do you diagnose it?",
     opts: [
-      'Immediately reduce CAC by cutting ad spend',
-      'Decompose: Revenue = Users × Activation × Trial-to-paid × ARPU × Renewal. Check each variable, then segment by class, exam goal, channel, device, and cohort',
-      'Check competitor pricing immediately',
-      'Survey all users about why they cancelled'
+      'Immediately cut ad spend to reduce CAC',
+      'Decompose: Revenue = Visitors × Signup rate × Add-to-cart × Checkout conversion × AOV × Repeat rate. Check each variable, then segment by channel, device, cohort, and geography',
+      'Check what competitors changed their pricing to',
+      'Survey all users about why they stopped purchasing'
     ],
     correct: 1,
-    explain: 'Always decompose before acting. Break revenue into its components and find which one changed. Then segment by class (11th vs 12th), exam goal (JEE vs NEET), acquisition channel, device, and cohort. A 15% drop is almost never uniform — one segment or one funnel step drove it, and that tells you exactly what to fix.'
+    explain: 'Always decompose before acting. Break revenue into its component variables and find which one changed. Then segment — a 20% drop is almost never uniform. One channel, device, or cohort likely drove it. Once you\'ve isolated the variable and the segment, you know exactly what to investigate. Jumping to solutions before decomposing is the most common PM interview mistake.'
   },
   {
-    q: 'You want to prove that a product change improved Allen Digital\'s retention. Which approach is most convincing?',
+    q: 'You want to prove a product change improved retention. Which approach is most convincing to leadership?',
     opts: [
-      'Show that total MAU increased after the change',
-      'Show cohort retention: users who joined after the change retain at a higher D30 rate than users who joined before it',
-      'Show that average session time increased',
-      'Show that support complaints decreased'
+      'Show that total MAU increased after the change went live',
+      'Show cohort retention: users who joined after the change retain at a meaningfully higher D30 rate than users who joined before it',
+      'Show that average session time increased after the change',
+      'Show that support complaints decreased after the change'
     ],
     correct: 1,
-    explain: 'Cohort retention lets you isolate the impact of your change. Users who experienced the new version are compared to users who experienced the old one. Total MAU and average metrics get diluted by older churned users and hide the true effect. This is why cohort analysis is the Growth PM\'s most powerful tool for proving product improvements.'
+    explain: 'Cohort retention isolates the impact of your change by comparing users who experienced the new version against users who experienced the old one. Total MAU and averages get diluted by older churned users and hide the real effect. This is why cohort analysis is the most credible way to demonstrate that a product change actually moved retention — not aggregate numbers.'
   }
 ];
 
