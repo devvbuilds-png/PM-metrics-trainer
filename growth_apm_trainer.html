@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth APM Metrics Trainer — Allen Digital Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f0f;
+    --surface: #181818;
+    --surface2: #222222;
+    --border: #2a2a2a;
+    --text: #e8e4dc;
+    --muted: #888;
+    --amber: #d4a843;
+    --amber-dim: #2a200a;
+    --blue: #5a9fd4;
+    --blue-dim: #0d1c2e;
+    --green: #5aad7a;
+    --green-dim: #0d2018;
+    --red: #d45a5a;
+    --red-dim: #2e0d0d;
+    --purple: #9b7fd4;
+    --purple-dim: #1c1228;
+    --coral: #d47a5a;
+    --coral-dim: #2e1508;
+    --teal: #5ac4c4;
+    --teal-dim: #0d2424;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    padding: 2.5rem 2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .tab:hover { border-color: #444; color: var(--text); }
+  .tab.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); font-weight: 500; }
+
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 4rem;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SKELETON */
+  .stage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .stage-btn {
+    padding: 14px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .stage-btn:hover { border-color: #444; }
+  .stage-btn.active { border-width: 2px; }
+  .stage-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+  .stage-q { font-size: 11px; opacity: 0.7; }
+
+  .s-acq { color: #5a9fd4; } .s-acq.active { background: var(--blue-dim); border-color: var(--blue); }
+  .s-act { color: #9b7fd4; } .s-act.active { background: var(--purple-dim); border-color: var(--purple); }
+  .s-eng { color: #d4a843; } .s-eng.active { background: var(--amber-dim); border-color: var(--amber); }
+  .s-ret { color: #5aad7a; } .s-ret.active { background: var(--green-dim); border-color: var(--green); }
+  .s-rev { color: #d47a5a; } .s-rev.active { background: var(--coral-dim); border-color: var(--coral); }
+  .s-ref { color: #5ac4c4; } .s-ref.active { background: var(--teal-dim); border-color: var(--teal); }
+
+  .stage-detail {
+    display: none;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .stage-detail.visible { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .stage-detail h3 { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+  .stage-detail p { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.6; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .hierarchy-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .north-star {
+    background: var(--blue-dim);
+    border: 1px solid var(--blue);
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .north-star-label { font-size: 10px; color: var(--blue); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .north-star-text { font-family: 'Fraunces', serif; font-size: 16px; color: var(--blue); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .hier-box {
+    background: var(--surface2);
+    border-radius: 6px;
+    padding: 12px;
+  }
+
+  .hier-box h4 { font-size: 12px; font-weight: 500; margin-bottom: 6px; }
+  .hier-box p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .quote { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 12px; }
+
+  /* FLASHCARDS */
+  .fc-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .fc-meta p { font-size: 13px; color: var(--muted); }
+  .fc-score { font-size: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; color: var(--muted); }
+
+  .fc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    min-height: 180px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    position: relative;
+    user-select: none;
+  }
+
+  .fc-card:hover { border-color: #444; }
+
+  .fc-front .fc-stage { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; display: inline-block; padding: 2px 8px; border-radius: 4px; }
+  .fc-front .fc-q { font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.4; color: var(--text); margin-bottom: 16px; }
+  .fc-front .fc-hint { font-size: 12px; color: var(--muted); }
+
+  .fc-back { display: none; }
+  .fc-back .fc-answer { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 12px; }
+  .fc-formula { background: var(--surface2); border-left: 2px solid var(--amber); border-radius: 0 4px 4px 0; padding: 8px 12px; font-family: monospace; font-size: 13px; color: var(--amber); margin-bottom: 10px; }
+  .fc-ex { font-size: 12px; color: var(--muted); font-style: italic; }
+
+  .fc-card.flipped .fc-front { display: none; }
+  .fc-card.flipped .fc-back { display: block; }
+
+  .fc-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .fc-nav button {
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .fc-nav button:hover { background: var(--surface2); border-color: #444; }
+
+  /* stage colors for flashcard tags */
+  .tag-acq { background: var(--blue-dim); color: var(--blue); }
+  .tag-act { background: var(--purple-dim); color: var(--purple); }
+  .tag-eng { background: var(--amber-dim); color: var(--amber); }
+  .tag-ret { background: var(--green-dim); color: var(--green); }
+  .tag-rev { background: var(--coral-dim); color: var(--coral); }
+
+  /* SCENARIOS */
+  .scenario {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .scenario-num { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .scenario-q { font-family: 'Fraunces', serif; font-size: 17px; line-height: 1.5; margin-bottom: 16px; color: var(--text); }
+
+  .options { display: flex; flex-direction: column; gap: 6px; }
+
+  .opt {
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface2);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    line-height: 1.5;
+    transition: all 0.15s;
+  }
+
+  .opt:hover:not(:disabled) { border-color: #555; background: #2a2a2a; }
+  .opt.correct { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+  .opt.wrong { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+  .opt:disabled { cursor: default; }
+
+  .explanation {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: var(--surface2);
+    border-radius: 6px;
+    border-left: 2px solid var(--amber);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .explanation.visible { display: block; }
+
+  /* CHEAT SHEET */
+  .cheat-intro {
+    background: var(--blue-dim);
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: var(--blue);
+    line-height: 1.6;
+  }
+
+  .cheat-intro strong { color: #7bb8e8; font-weight: 500; }
+
+  .cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+
+  .cheat-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .cheat-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .cheat-title.blue { color: var(--blue); }
+  .cheat-title.purple { color: var(--purple); }
+  .cheat-title.amber { color: var(--amber); }
+  .cheat-title.green { color: var(--green); }
+  .cheat-title.coral { color: var(--coral); }
+  .cheat-title.red { color: var(--red); }
+
+  .cheat-item { font-size: 12px; color: var(--muted); padding: 5px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+  .cheat-item:last-child { border-bottom: none; }
+  .cheat-item strong { color: var(--text); font-weight: 500; }
+
+  .formula-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .formula-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .formula-name { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .formula-eq { font-family: monospace; font-size: 12px; color: var(--amber); line-height: 1.5; }
+
+  .insight-box {
+    background: var(--green-dim);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #7dcc9e;
+    line-height: 1.6;
+  }
+
+  .answer-box {
+    background: var(--purple-dim);
+    border: 1px solid var(--purple);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-size: 13px;
+    color: #b89ee0;
+    line-height: 1.6;
+  }
+
+  .answer-box strong { color: var(--purple); font-weight: 500; }
+
+  .section-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+
+  h2.section-h {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .section-desc { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Growth APM Metrics Trainer</h1>
+  <p>Allen Digital interview prep · Work through tabs in order for best results</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('skeleton', this)">1. The Skeleton</button>
+  <button class="tab" onclick="show('flashcards', this)">2. Flashcards</button>
+  <button class="tab" onclick="show('scenarios', this)">3. Allen Scenarios</button>
+  <button class="tab" onclick="show('cheatsheet', this)">4. Cheat Sheet</button>
+</div>
+
+<div class="content">
+
+  <!-- SKELETON -->
+  <div id="skeleton" class="section active">
+    <h2 class="section-h">The mental model</h2>
+    <p class="section-desc">Every metric question in APM interviews is secretly asking one thing: can you map the user journey and pick the right metric for each stage? Click a stage to see what it means.</p>
+
+    <div class="stage-grid">
+      <button class="stage-btn s-acq" onclick="toggleStage('acq', this)">
+        <div class="stage-name">Acquisition</div>
+        <div class="stage-q">Are the right users coming in?</div>
+      </button>
+      <button class="stage-btn s-act" onclick="toggleStage('act', this)">
+        <div class="stage-name">Activation</div>
+        <div class="stage-q">Did they experience value?</div>
+      </button>
+      <button class="stage-btn s-eng" onclick="toggleStage('eng', this)">
+        <div class="stage-name">Engagement</div>
+        <div class="stage-q">Are they using it meaningfully?</div>
+      </button>
+      <button class="stage-btn s-ret" onclick="toggleStage('ret', this)">
+        <div class="stage-name">Retention</div>
+        <div class="stage-q">Do they come back?</div>
+      </button>
+      <button class="stage-btn s-rev" onclick="toggleStage('rev', this)">
+        <div class="stage-name">Revenue</div>
+        <div class="stage-q">Are we making money sustainably?</div>
+      </button>
+      <button class="stage-btn s-ref" onclick="toggleStage('ref', this)">
+        <div class="stage-name">Referral</div>
+        <div class="stage-q">Do users bring others?</div>
+      </button>
+    </div>
+
+    <div id="stage-acq" class="stage-detail">
+      <h3 style="color:var(--blue)">Acquisition</h3>
+      <p>Don't just count users. Ask which channel brings users who actually activate and pay. Cheap CAC is useless if those users drop immediately. The best Growth PMs split every acquisition metric by channel and then cross-reference against downstream activation and retention.</p>
+      <div class="pills">
+        <span class="pill">Visitors</span><span class="pill">New users</span><span class="pill">Signup conversion</span><span class="pill">CAC by channel</span><span class="pill">Paid vs organic split</span><span class="pill">CTR</span><span class="pill">Bounce rate</span><span class="pill">Channel mix</span>
+      </div>
+    </div>
+
+    <div id="stage-act" class="stage-detail">
+      <h3 style="color:var(--purple)">Activation</h3>
+      <p>Signup ≠ activation. Activation is the first moment a user experiences real value. For Allen Digital: activation = first class watched AND first test attempted. Both — because watching is passive, attempting a test is active learning. Activation should predict retention — that's how you know you've defined it right.</p>
+      <div class="pills">
+        <span class="pill">Activation rate</span><span class="pill">Onboarding completion</span><span class="pill">Time to value</span><span class="pill">First class watched</span><span class="pill">First test attempted</span><span class="pill">Drop-off rate per step</span>
+      </div>
+    </div>
+
+    <div id="stage-eng" class="stage-detail">
+      <h3 style="color:var(--amber)">Engagement</h3>
+      <p>For edtech, use WAU — not DAU. Students don't study every single day, that's normal. Define "active" as completing a meaningful learning action, not just opening the app. In edtech, engagement without learning improvement is a guardrail problem, not a success metric.</p>
+      <div class="pills">
+        <span class="pill">WAU</span><span class="pill">Lessons/week</span><span class="pill">Test attempts</span><span class="pill">Doubts asked & resolved</span><span class="pill">Study streaks</span><span class="pill">Feature adoption</span><span class="pill">Session depth</span>
+      </div>
+    </div>
+
+    <div id="stage-ret" class="stage-detail">
+      <h3 style="color:var(--green)">Retention</h3>
+      <p>Usually the most important growth metric. Always use cohort retention, not averages. Compare Jan vs Feb vs Mar cohorts — if newer cohorts retain better, your product changes are working. Average retention hides this. A product with poor retention is a leaking bucket.</p>
+      <div class="pills">
+        <span class="pill">D7 / D30 retention</span><span class="pill">Cohort retention</span><span class="pill">Churn rate</span><span class="pill">Renewal rate</span><span class="pill">Course continuation</span><span class="pill">Score improvement</span>
+      </div>
+    </div>
+
+    <div id="stage-rev" class="stage-detail">
+      <h3 style="color:var(--coral)">Revenue</h3>
+      <p>Revenue = Users × Activation × Paid conversion × ARPU × Retention. If revenue drops, decompose into these variables, then segment. Don't optimize conversion at the cost of refunds — that's fake growth. Always check gross margin alongside revenue growth.</p>
+      <div class="pills">
+        <span class="pill">Trial-to-paid</span><span class="pill">ARPU</span><span class="pill">MRR/ARR</span><span class="pill">LTV</span><span class="pill">CAC payback</span><span class="pill">Gross margin</span><span class="pill">Refund rate</span><span class="pill">Renewal rate</span>
+      </div>
+    </div>
+
+    <div id="stage-ref" class="stage-detail">
+      <h3 style="color:var(--teal)">Referral</h3>
+      <p>Edtech referrals work naturally — students prepare in peer groups. If viral coefficient > 1, you can grow without proportional spend. But most products don't hit this — be realistic in interviews. Don't claim virality without evidence.</p>
+      <div class="pills">
+        <span class="pill">Referral rate</span><span class="pill">Invite conversion</span><span class="pill">Viral coefficient</span>
+      </div>
+    </div>
+
+    <div class="hierarchy-box">
+      <div class="section-label" style="margin-bottom:12px">The 3-layer hierarchy — use this in every answer</div>
+      <div class="north-star">
+        <div class="north-star-label">North Star Metric</div>
+        <div class="north-star-text">Weekly active learners completing meaningful learning actions</div>
+      </div>
+      <div class="two-col">
+        <div class="hier-box">
+          <h4 style="color:var(--green)">Input metrics (drive it ↑)</h4>
+          <p>Signup conversion · First class watched · First test attempted · Lessons/week · Doubts resolved · Study plan completion · WAU · Trial-to-paid</p>
+        </div>
+        <div class="hier-box">
+          <h4 style="color:var(--red)">Guardrail metrics (protect it)</h4>
+          <p>Refund rate · Churn · Drop-off rate · Support complaints · Gross margin · Low score improvement · Payment failure</p>
+        </div>
+      </div>
+      <p class="quote">"Every growth experiment needs one success metric and at least one guardrail metric."</p>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="flashcards" class="section">
+    <div class="fc-meta">
+      <p>Tap the card to flip. Go through all 15.</p>
+      <div class="fc-score" id="fc-score">1 / 15</div>
+    </div>
+
+    <div class="fc-card" id="fc-card" onclick="flipCard()">
+      <div class="fc-front">
+        <span class="fc-stage" id="fc-tag"></span>
+        <div class="fc-q" id="fc-q"></div>
+        <div class="fc-hint">click to reveal →</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-answer" id="fc-a"></div>
+        <div class="fc-formula" id="fc-f"></div>
+        <div class="fc-ex" id="fc-ex"></div>
+      </div>
+    </div>
+
+    <div class="fc-nav">
+      <button onclick="prevCard()">← prev</button>
+      <span style="font-size:12px;color:var(--muted)" id="fc-nav-hint"></span>
+      <button onclick="nextCard()">next →</button>
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div id="scenarios" class="section">
+    <h2 class="section-h">Allen Digital scenarios</h2>
+    <p class="section-desc">Pick the right metric instinct for each situation. Think before clicking.</p>
+    <div id="scenarios-container"></div>
+  </div>
+
+  <!-- CHEAT SHEET -->
+  <div id="cheatsheet" class="section">
+    <div class="cheat-intro">
+      <strong>One line to remember everything:</strong><br>
+      A Growth PM increases the number of right users who experience value, build a habit, improve outcomes, pay sustainably, and bring others — without hurting quality or margins. For Allen Digital: the goal is not more students on the app. It's more students learning regularly, improving measurably, staying longer, paying or renewing, and recommending Allen to friends.
+    </div>
+
+    <div class="section-label">Metrics by stage</div>
+    <div class="cheat-grid">
+      <div class="cheat-block">
+        <div class="cheat-title blue">Acquisition</div>
+        <div class="cheat-item"><strong>Signup conversion</strong> — visitors who sign up</div>
+        <div class="cheat-item"><strong>CAC</strong> — spend ÷ new paying customers</div>
+        <div class="cheat-item"><strong>Paid vs organic split</strong> — organic = healthier, sustainable</div>
+        <div class="cheat-item"><strong>Bounce rate</strong> — inverse of engagement rate</div>
+        <div class="cheat-item"><strong>Channel mix</strong> — which source brings retaining users?</div>
+      </div>
+      <div class="cheat-block">
+        <div class="cheat-title purple">Activation</div>
+        <div class="cheat-item"><strong>Activation rate</strong> — activated ÷ signed up</div>
+        <div class="cheat-item"><strong>Time to value</strong> — faster = better</div>
+        <div class="cheat-item"><strong>Onboarding completion</strong> — % who finish setup</div>
+        <div class="cheat-item"><strong>Allen activation event</strong> — first class + first test</div>
+        <div class="cheat-item"><strong>Drop-off by step</strong> — find the biggest leak</div>
+      </div>
+      <div class="cheat-block">
+        <div class="cheat-title amber">Engagement</div>
+        <div class="cheat-item"><strong>WAU</strong> — better than DAU for edtech</div>
+        <div class="cheat-item"><strong>Lessons/week</strong> — core learning habit</div>
+        <div class="cheat-item"><strong>Test attempts</strong> — active, not passive engagement</div>
+        <div class="cheat-item"><strong>Stickiness</strong> — DAU ÷ MAU</div>
+        <div class="cheat-item"><strong>Feature adoption</strong> — users using feature ÷ eligible</div>
+      </div>
+      <div class="cheat-block">
+        <div class="cheat-title green">Retention</div>
+        <div class="cheat-item"><strong>D7 / D30</strong> — return on day 7 and day 30</div>
+        <div class="cheat-item"><strong>Cohort retention</strong> — group by signup month</div>
+        <div class="cheat-item"><strong>Churn rate</strong> — lost ÷ total at period start</div>
+        <div class="cheat-item"><strong>Renewal rate</strong> — subscription health signal</div>
+        <div class="cheat-item"><strong>Score improvement</strong> — edtech-specific retention indicator</div>
+      </div>
+      <div class="cheat-block">
+        <div class="cheat-title coral">Revenue</div>
+        <div class="cheat-item"><strong>Trial-to-paid</strong> — most important conversion in edtech</div>
+        <div class="cheat-item"><strong>ARPU</strong> — revenue ÷ total users</div>
+        <div class="cheat-item"><strong>LTV</strong> — ARPU × gross margin × lifetime</div>
+        <div class="cheat-item"><strong>CAC payback</strong> — CAC ÷ monthly gross profit</div>
+        <div class="cheat-item"><strong>Gross margin</strong> — guards against fake growth</div>
+      </div>
+      <div class="cheat-block">
+        <div class="cheat-title red">Guardrails (always include)</div>
+        <div class="cheat-item"><strong>Refund rate</strong> — rising = bad growth signal</div>
+        <div class="cheat-item"><strong>Support contact rate</strong> — rising = product friction</div>
+        <div class="cheat-item"><strong>Payment failure rate</strong> — involuntary churn driver</div>
+        <div class="cheat-item"><strong>CSAT / NPS</strong> — leading sentiment indicator</div>
+        <div class="cheat-item"><strong>Low score improvement</strong> — edtech-specific guardrail</div>
+      </div>
+    </div>
+
+    <div class="section-label">Must-know formulas</div>
+    <div class="formula-grid">
+      <div class="formula-card"><div class="formula-name">Conversion Rate</div><div class="formula-eq">Users completing action ÷ Users entering step</div></div>
+      <div class="formula-card"><div class="formula-name">Activation Rate</div><div class="formula-eq">Activated users ÷ Signed-up users</div></div>
+      <div class="formula-card"><div class="formula-name">Churn Rate</div><div class="formula-eq">Users lost ÷ Users at start of period</div></div>
+      <div class="formula-card"><div class="formula-name">CAC</div><div class="formula-eq">Total acquisition spend ÷ New paying customers</div></div>
+      <div class="formula-card"><div class="formula-name">LTV</div><div class="formula-eq">ARPU × Gross margin % × Customer lifetime</div></div>
+      <div class="formula-card"><div class="formula-name">CAC Payback</div><div class="formula-eq">CAC ÷ Monthly gross profit per customer</div></div>
+      <div class="formula-card"><div class="formula-name">ARPU</div><div class="formula-eq">Total Revenue ÷ Total Users</div></div>
+      <div class="formula-card"><div class="formula-name">Stickiness</div><div class="formula-eq">DAU ÷ MAU (use carefully for edtech)</div></div>
+    </div>
+
+    <div class="insight-box">
+      <strong style="color:var(--green)">The edtech insight that stands out in interviews:</strong><br>
+      "In edtech, engagement alone is not enough. A student can watch many videos and still not improve. I'd pair engagement metrics with learning outcome metrics — test improvement, concept mastery, mock test performance, and score progression."
+    </div>
+
+    <div class="answer-box">
+      <strong>Interview answer formula — use this structure every time:</strong><br>
+      First clarify the product goal. Then map the learner journey. Then choose one North Star metric. Break it into input metrics across acquisition, activation, engagement, retention, revenue, and referral. Add guardrail metrics. Finally, segment by cohort, channel, class (JEE/NEET, 11th/12th), device, and geography to find where the biggest opportunity or leak is.
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+let activeStageBtn = null;
+function toggleStage(id, btn) {
+  const el = document.getElementById('stage-' + id);
+  const isVis = el.classList.contains('visible');
+  document.querySelectorAll('.stage-detail').forEach(d => d.classList.remove('visible'));
+  document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+  if (!isVis) {
+    el.classList.add('visible');
+    btn.classList.add('active');
+  }
+}
+
+const cards = [
+  { tag: 'Acquisition', cls: 'tag-acq', q: 'What is CAC and when does a low CAC become a problem?', a: "Customer Acquisition Cost — total spend divided by new paying customers. Low CAC is a problem when those cheap users don't activate or retain. The cheapest channel is not always the best channel.", f: 'CAC = Total acquisition spend ÷ New paying customers', ex: 'Spent ₹1,00,000 → 500 customers → CAC = ₹200. But if those 500 churn in week 1, the ₹200 CAC is worthless.' },
+  { tag: 'Activation', cls: 'tag-act', q: 'What is the Aha Moment and how do you find it?', a: "The first moment a user understands the product's value. You find it through cohort analysis — compare users who did action X in week 1 vs those who didn't, and see which group retains better. That action is your Aha Moment.", f: 'Activation Rate = Activated users ÷ Signed-up users', ex: 'For Allen Digital: first class watched + first test attempted within 7 days predicts strong D30 retention.' },
+  { tag: 'Activation', cls: 'tag-act', q: 'What is Time to Value and why does it matter?', a: 'How long it takes a new user to experience the product\'s value. The shorter it is, the more users activate before dropping off. Reduce it by removing steps and leading users directly to the value moment.', f: 'Measure: time between signup and first meaningful action', ex: 'Canva shows templates immediately instead of a blank canvas — users design in 2 min instead of 15.' },
+  { tag: 'Engagement', cls: 'tag-eng', q: 'Why should you use WAU instead of DAU for an edtech app?', a: "Students don't study every single day — that's normal behavior. WAU captures weekly learning habits better. Always define 'active' as completing a meaningful action (lesson, test), not just opening the app.", f: 'Stickiness = DAU ÷ MAU', ex: 'If DAU=20K and MAU=100K, stickiness = 20%. Use carefully for edtech — daily isn\'t expected.' },
+  { tag: 'Engagement', cls: 'tag-eng', q: 'What is the difference between engagement depth and frequency?', a: 'Frequency = how often a user comes back. Depth = how much they do per session. Both matter. A user can return often but do very little (shallow), or come rarely but go deep. Edtech needs both.', f: 'Frequency: core actions per week. Depth: content consumed per session.', ex: 'Test attempts per week (frequency) vs questions per test session (depth).' },
+  { tag: 'Retention', cls: 'tag-ret', q: 'Why is cohort retention better than average retention?', a: 'Averages hide what\'s really happening. Cohort retention compares users who joined in different months. If newer cohorts retain better than older ones, your recent product changes are working. Averages mask this completely.', f: 'Cohort: group users by signup date, track their return rate over time', ex: 'Jan D30=8%, Feb D30=12%, Mar D30=16% → clear upward trend. Average might still show 10% and look flat.' },
+  { tag: 'Retention', cls: 'tag-ret', q: 'What is churn rate and what does high churn signal?', a: 'Percentage of users lost in a period. High churn means: users failed to activate, value is not repeated enough, pricing is too high, product quality is poor, or a competitor is stronger. Always diagnose before acting.', f: 'Churn Rate = Churned users ÷ Total users at start of period', ex: '1,000 subscribers, 80 cancel → Churn = 8%.' },
+  { tag: 'Revenue', cls: 'tag-rev', q: 'What is LTV and why does LTV:CAC matter?', a: "Lifetime Value = average revenue × gross margin × customer lifetime. LTV:CAC tells you whether acquisition is sustainable. If LTV barely exceeds CAC, you're spending too much per user. The ratio matters more than either number alone.", f: 'LTV = ARPU × Gross margin × Lifetime', ex: '₹500/month × 10 months × 60% margin = ₹3,000 LTV vs CAC of ₹1,000 → healthy ratio.' },
+  { tag: 'Revenue', cls: 'tag-rev', q: 'What is CAC payback period and why is it separate from LTV?', a: 'How many months to recover what you spent acquiring a customer. Even if LTV is great, slow payback hurts cash flow. Critical for early-stage companies that can\'t afford to wait 2+ years to break even on each customer.', f: 'CAC Payback = CAC ÷ Monthly gross profit per customer', ex: 'CAC=₹1,200, Monthly gross profit=₹300 → Payback = 4 months.' },
+  { tag: 'Revenue', cls: 'tag-rev', q: 'What is gross margin and why is it a guardrail metric?', a: "Revenue minus direct costs divided by revenue. It catches fake growth — if you grow orders by giving huge discounts, orders rise but margin collapses. Always check margin alongside revenue growth. This is how PMs spot unsustainable growth.", f: 'Gross Margin = (Revenue − Direct costs) ÷ Revenue × 100', ex: 'Allen gives ₹1000 off to increase trial signups. Signups ↑ 40% but gross margin drops from 60% to 35% — bad growth.' },
+  { tag: 'Activation', cls: 'tag-act', q: 'What is the difference between signup, onboarding completion, and activation?', a: 'Signup = user created account. Onboarding = user finished setup steps. Activation = user experienced real product value. Only activation predicts long-term retention. The others are just infrastructure steps toward it.', f: 'Activation Rate = Activated ÷ Registered', ex: 'Allen: account created ≠ activation. Watching first class + attempting first test within 7 days = activation.' },
+  { tag: 'Engagement', cls: 'tag-eng', q: 'What is feature adoption and how should you measure it?', a: "Percentage of eligible users who use a specific feature. Don't just count clicks — measure whether the feature improves the user journey and has downstream impact on retention and outcomes. A feature used once and abandoned has failed.", f: 'Feature Adoption = Users using feature ÷ Eligible users', ex: 'AI doubt-solving: % who try it, % who return to it, and does it improve test scores week-over-week?' },
+  { tag: 'Acquisition', cls: 'tag-acq', q: 'What does paid vs organic split tell you as a Growth PM?', a: 'High reliance on paid traffic is fragile — growth stops when spend stops. Strong organic (SEO, word-of-mouth, referrals) signals real product pull and is more sustainable. Organic users also tend to retain better and have lower effective CAC.', f: 'Paid split = Paid traffic ÷ Total traffic', ex: 'If 80% of signups come from paid ads, the business is one budget cut away from collapse.' },
+  { tag: 'Revenue', cls: 'tag-rev', q: 'What is ARPU and how is it different from AOV?', a: 'ARPU = average revenue per user across all users. AOV = average order value per transaction. Use ARPU for subscriptions and SaaS. Use AOV for ecommerce and food delivery where users transact multiple times.', f: 'ARPU = Revenue ÷ Total Users  |  AOV = Revenue ÷ Number of Orders', ex: 'Allen Digital: use ARPU (subscription). Swiggy: use AOV (per order).' },
+  { tag: 'Retention', cls: 'tag-ret', q: 'What does D1/D7/D30 retention each tell you?', a: 'D1 = habit signal (did the product hook them?). D7 = stickiness (is it part of their week?). D30 = long-term value delivery (do they still find it worth it a month later?). Each drop-off point tells you where users lose faith.', f: 'D7 = Users from cohort who return on day 7 ÷ Total cohort size', ex: '1,000 sign up May 1: 300 on May 2 = 30% D1. 150 on May 8 = 15% D7. 80 on May 31 = 8% D30.' }
+];
+
+let cur = 0;
+function renderCard() {
+  const c = cards[cur];
+  const card = document.getElementById('fc-card');
+  document.getElementById('fc-tag').textContent = c.tag;
+  document.getElementById('fc-tag').className = 'fc-stage ' + c.cls;
+  document.getElementById('fc-q').textContent = c.q;
+  document.getElementById('fc-a').textContent = c.a;
+  document.getElementById('fc-f').textContent = c.f;
+  document.getElementById('fc-ex').textContent = c.ex ? 'Example: ' + c.ex : '';
+  document.getElementById('fc-score').textContent = (cur + 1) + ' / ' + cards.length;
+  card.classList.remove('flipped');
+}
+
+function flipCard() { document.getElementById('fc-card').classList.toggle('flipped'); }
+function nextCard() { cur = (cur + 1) % cards.length; renderCard(); }
+function prevCard() { cur = (cur - 1 + cards.length) % cards.length; renderCard(); }
+
+renderCard();
+
+const scenarios = [
+  {
+    q: 'Students are signing up for Allen Digital\'s free trial but very few watch their first class. What metrics do you look at and what might you do?',
+    opts: [
+      'Track DAU and find which users open the app most',
+      'Look at onboarding drop-off by step, time to value, and first class watched rate — then test surfacing the most relevant class immediately after signup',
+      'Check trial-to-paid conversion and refund rate',
+      'Measure NPS and CSAT from existing paid users'
+    ],
+    correct: 1,
+    explain: 'This is an activation problem. The funnel is: signup → first class watched. You need to find where users drop between these steps. Time to value and onboarding completion tell you how far users get and how long it takes. The fix is reducing friction between signup and the first learning moment — not tracking DAU or checking revenue metrics.'
+  },
+  {
+    q: "Allen Digital's trial-to-paid conversion is low. What do you check first?",
+    opts: [
+      'Increase paid ad spend to bring more trial users',
+      'Run an NPS survey to all users',
+      'Map the trial experience: are users activating? Are they hitting the paywall before experiencing value? Check activation rate, trial engagement, and where users disengage',
+      'Lower the subscription price immediately'
+    ],
+    correct: 2,
+    explain: 'Revenue conversion problems usually trace back to activation or engagement failures. If users don\'t experience value during the trial, they won\'t pay — no matter how you price it. Check whether users watched a class, attempted a test, and studied regularly before hitting the paywall. The fix may be improving activation, not touching the price.'
+  },
+  {
+    q: 'You launch an AI doubt-solving feature. What tells you it actually worked?',
+    opts: [
+      'Number of doubts submitted in the first week',
+      'Feature adoption rate, repeat usage, and whether it improves D7 retention and test improvement scores',
+      'Total time spent inside the feature',
+      'Number of positive App Store reviews mentioning the feature'
+    ],
+    correct: 1,
+    explain: 'Feature success is not just usage volume — it\'s whether the feature improves the user journey. Track adoption rate (who tried it), repeat usage (do they return to it), and downstream impact on retention and test scores. A feature people use once and abandon hasn\'t worked. Downstream learning outcome impact is the real signal for Allen.'
+  },
+  {
+    q: 'Revenue at Allen Digital dropped 15% month-on-month. How do you diagnose it?',
+    opts: [
+      'Immediately reduce CAC by cutting ad spend',
+      'Decompose: Revenue = Users × Activation × Trial-to-paid × ARPU × Renewal. Check each variable, then segment by class, exam goal, channel, device, and cohort',
+      'Check competitor pricing immediately',
+      'Survey all users about why they cancelled'
+    ],
+    correct: 1,
+    explain: 'Always decompose before acting. Break revenue into its components and find which one changed. Then segment by class (11th vs 12th), exam goal (JEE vs NEET), acquisition channel, device, and cohort. A 15% drop is almost never uniform — one segment or one funnel step drove it, and that tells you exactly what to fix.'
+  },
+  {
+    q: 'You want to prove that a product change improved Allen Digital\'s retention. Which approach is most convincing?',
+    opts: [
+      'Show that total MAU increased after the change',
+      'Show cohort retention: users who joined after the change retain at a higher D30 rate than users who joined before it',
+      'Show that average session time increased',
+      'Show that support complaints decreased'
+    ],
+    correct: 1,
+    explain: 'Cohort retention lets you isolate the impact of your change. Users who experienced the new version are compared to users who experienced the old one. Total MAU and average metrics get diluted by older churned users and hide the true effect. This is why cohort analysis is the Growth PM\'s most powerful tool for proving product improvements.'
+  }
+];
+
+const sc = document.getElementById('scenarios-container');
+scenarios.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'scenario';
+  div.innerHTML = `
+    <div class="scenario-num">Scenario ${i + 1} of ${scenarios.length}</div>
+    <div class="scenario-q">${s.q}</div>
+    <div class="options" id="opts-${i}">
+      ${s.opts.map((o, j) => `<button class="opt" onclick="checkAnswer(${i}, ${j}, ${s.correct})">${o}</button>`).join('')}
+    </div>
+    <div class="explanation" id="exp-${i}">${s.explain}</div>
+  `;
+  sc.appendChild(div);
+});
+
+function checkAnswer(si, chosen, correct) {
+  const opts = document.querySelectorAll(`#opts-${si} .opt`);
+  opts.forEach((b, j) => {
+    b.disabled = true;
+    if (j === correct) b.classList.add('correct');
+    else if (j === chosen && chosen !== correct) b.classList.add('wrong');
+  });
+  document.getElementById('exp-' + si).classList.add('visible');
+}
+</script>
+</body>
+</html>
